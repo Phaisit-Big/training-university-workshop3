@@ -77,18 +77,19 @@ public class CourseRegistrationService {
         }
 
 
-        // mandatory criterion
+        // check duplications of student-course registration
         if (null != registrationRepository.findByStudentsIdAndCoursesId(studentsId, coursesId)) {
             throw new AlreadyRegisteredException(studentsId, coursesId);
         }
 
-        // additional criteria
+        // check credit availability of a student
         Integer userCredits = registrationRepository.countStudentCredits(studentsId);
         int availableCredits = maximumCreditsPerUser - Optional.ofNullable(userCredits).orElse(0);
         if (availableCredits < courseOpt.get().getCredit()) {
             throw new UnavailableCreditException(studentsId, availableCredits, courseOpt.get().getCredit());
         }
 
+        // check seat availability of course
         Integer courseSeats = registrationRepository.countCourseSeats(coursesId);
         int availableSeats = maximumSeatsPerCourse - Optional.ofNullable(courseSeats).orElse(0);
         if (availableSeats <= 0) {

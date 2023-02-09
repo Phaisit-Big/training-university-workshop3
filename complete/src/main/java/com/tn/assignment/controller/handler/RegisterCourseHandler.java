@@ -1,10 +1,8 @@
 package com.tn.assignment.controller.handler;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
@@ -15,9 +13,9 @@ import com.tn.assignment.model.CourseRegistrationResult;
 import com.tn.assignment.service.CourseRegistrationService;
 import com.tn.assignment.service.exception.AlreadyRegisteredException;
 import com.tn.assignment.service.exception.CourseNotFoundException;
+import com.tn.assignment.service.exception.StudentNotFoundException;
 import com.tn.assignment.service.exception.UnavailableCreditException;
 import com.tn.assignment.service.exception.UnavailableSeatException;
-import com.tn.assignment.service.exception.StudentNotFoundException;
 
 
 public class RegisterCourseHandler {
