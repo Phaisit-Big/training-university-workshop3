@@ -17,8 +17,9 @@ import com.tn.assignment.service.validator.StudentEmailChecker;
 
 /*
  * TODO: Code review 3.3 - Minimize resource usage
- * - query only mandatory fields and neccessary records to reduce bandwidth usage
- * - do not unintentionally store a large number of records in memory
+ * - fetch only mandatory fields and neccessary records to avoid transferring large data in transit
+ * - query conditions with an index and eliminate full scan search on database 
+ * - do not store a large number of querying records into a client variable
  *   e.g. the method countStudents uses COUNT query instead of fething all records into a list
  */
 @Service    
