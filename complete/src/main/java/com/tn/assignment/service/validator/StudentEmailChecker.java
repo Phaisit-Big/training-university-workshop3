@@ -9,7 +9,9 @@ import com.tn.assignment.service.repo.entity.StudentEntity;
 /* 
  * TODO: Code review 3.2 - Logic performance
  *  - internal memory logic should be checked before querying databases or calling external parties
+ *    e.g. the method isValid check email patterns before querying the existing of it in the database
  *  - a reuseable object could be static to help reduce unnecessary object instantiation
+ *    e.g. EMAIL_PATTERN is declared once to reduce repetition of regex pattern parsing
  */
 public class StudentEmailChecker {
     

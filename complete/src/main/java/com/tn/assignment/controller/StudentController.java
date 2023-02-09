@@ -1,13 +1,10 @@
 package com.tn.assignment.controller;
 
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +19,8 @@ import com.tn.assignment.service.StudentService;
 
 /*
  * TODO: Code review 3.4 - Cohesion and decoupling
- * - Move response formatting codes in a controller to another handler class`
+ * - Move response formatting codes in a controller to another handler class
+ *   e.g. separate codes that handle add student response formattting to AddStudentHandler
  */
 @Controller
 public class StudentController {
