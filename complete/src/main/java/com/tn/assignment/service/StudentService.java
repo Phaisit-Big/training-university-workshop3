@@ -9,8 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tn.assignment.model.Student;
+import com.tn.assignment.service.exception.InvalidStudentEmailException;
 import com.tn.assignment.service.repo.StudentRepository;
 import com.tn.assignment.service.repo.entity.StudentEntity;
+
+import com.tn.assignment.service.validator.StudentEmailChecker;
 
 @Service    
 public class StudentService {
@@ -18,7 +21,7 @@ public class StudentService {
 	@Autowired 
 	private StudentRepository studentRepository;
 
-    
+
     public List<Student> findAll() {  
 
         Iterable<StudentEntity> iter = studentRepository.findAll();
@@ -37,6 +40,11 @@ public class StudentService {
 
 
     public Student save(Student student) {
+
+        if (!new StudentEmailChecker(studentRepository).isValid(student.getEmail())) {
+            throw new InvalidStudentEmailException(student.getEmail());   
+        }
+
         StudentEntity studentEntity = new StudentEntity();
 		studentEntity.setName(student.getName());
 		studentEntity.setEmail(student.getEmail());
@@ -59,5 +67,6 @@ public class StudentService {
         Integer count = studentRepository.countStudents(isActive? 1: 0);
         return Optional.ofNullable(count).orElse(0);    
     }
+
 
 }

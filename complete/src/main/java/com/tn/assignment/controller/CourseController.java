@@ -55,7 +55,7 @@ public class CourseController {
 	 * </ul>
 	 */
 	@RequestMapping(path="/courses", method=RequestMethod.POST) 
-	public @ResponseBody ResponseEntity<Object> addNewCourse(@RequestHeader(name="Accept-Language", required=false) Locale locale,
+	public @ResponseBody ResponseEntity<Object> addCourse(@RequestHeader(name="Accept-Language", required=false) Locale locale,
 																@RequestBody Course course) {
 
 		Course resultCourse = courseService.save(course);

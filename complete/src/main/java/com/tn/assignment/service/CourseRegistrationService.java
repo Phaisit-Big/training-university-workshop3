@@ -22,6 +22,7 @@ import com.tn.assignment.service.repo.StudentRepository;
 import com.tn.assignment.service.repo.entity.CourseEntity;
 import com.tn.assignment.service.repo.entity.RegistrationEntity;
 import com.tn.assignment.service.repo.entity.StudentEntity;
+import com.tn.assignment.service.validator.CourseRegistrationValidator;
 
 @Service    
 public class CourseRegistrationService {
@@ -77,24 +78,10 @@ public class CourseRegistrationService {
         }
 
 
-        // check duplications of student-course registration
-        if (null != registrationRepository.findByStudentsIdAndCoursesId(studentsId, coursesId)) {
-            throw new AlreadyRegisteredException(studentsId, coursesId);
-        }
-
-        // check credit availability of a student
-        Integer userCredits = registrationRepository.countStudentCredits(studentsId);
-        int availableCredits = maximumCreditsPerUser - Optional.ofNullable(userCredits).orElse(0);
-        if (availableCredits < courseOpt.get().getCredit()) {
-            throw new UnavailableCreditException(studentsId, availableCredits, courseOpt.get().getCredit());
-        }
-
-        // check seat availability of course
-        Integer courseSeats = registrationRepository.countCourseSeats(coursesId);
-        int availableSeats = maximumSeatsPerCourse - Optional.ofNullable(courseSeats).orElse(0);
-        if (availableSeats <= 0) {
-            throw new UnavailableSeatException(coursesId);
-        }			
+        CourseRegistrationValidator validator = new CourseRegistrationValidator(registrationRepository);
+        validator.setMaximumCreditsPerUser(maximumCreditsPerUser);
+        validator.setMaximumSeatsPerCourse(maximumSeatsPerCourse);
+        validator.validate(studentOpt.get(), courseOpt.get());			
 
 
         RegistrationEntity regEntity = new RegistrationEntity();
@@ -115,5 +102,6 @@ public class CourseRegistrationService {
         return result;
 
     }
+
 
 }

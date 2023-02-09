@@ -11,6 +11,7 @@ CREATE TABLE students (
 );
 -- ALTER TABLE students DROP INDEX idx_state;
 ALTER TABLE students ADD INDEX idx_state(state);
+ALTER TABLE students ADD INDEX idx_email(email);
 
 -- SELECT * FROM courses;
 -- DROP TABLE courses;

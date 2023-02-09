@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tn.assignment.controller.handler.AddStudentHandler;
 import com.tn.assignment.model.Student;
 import com.tn.assignment.service.StudentService;
 
@@ -52,20 +53,12 @@ public class StudentController {
 	 * </ul>
 	 */
 	@RequestMapping(path="/students", method=RequestMethod.POST) 
-	public @ResponseBody ResponseEntity<Object> addNewStudent(@RequestHeader(name="Accept-Language", required=false) Locale locale,
+	public @ResponseBody ResponseEntity<Object> addStudent(@RequestHeader(name="Accept-Language", required=false) Locale locale,
 																@RequestBody Student student) {
 
-		Student resultStudent = studentService.save(student);
+
+		return new AddStudentHandler(studentService, messageSource).addStudent(locale, student);
 				
-		//locale = new Locale("th"); 
-	    //locale = LocaleContextHolder.getLocale(); 
-		String resultMessage = messageSource.getMessage("users.add.rs", new Object[] {resultStudent.getId()}, locale);
-		
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("description", resultMessage);
-		resultMap.put("student", resultStudent);
-		
-		return ResponseEntity.status(HttpStatus.CREATED).body(resultMap);
 	}
 
 }

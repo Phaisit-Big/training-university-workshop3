@@ -32,7 +32,7 @@ public class RegisterCourseHandler {
 		this.messageSource = messageSource;
 	}
 	
-	public CourseRegistrationResult process(Locale locale, CourseRegistration courseReg) {
+	protected CourseRegistrationResult process(Locale locale, CourseRegistration courseReg) {
 		try {
 
 			CourseRegistration resultCourseReg = courseRegistationService.register(courseReg.getStudentsId(), courseReg.getCoursesId());
