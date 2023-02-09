@@ -1,6 +1,8 @@
 package com.tn.assignment.controller.handler;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -9,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.tn.assignment.model.CourseRegistration;
+import com.tn.assignment.model.CourseRegistrationResult;
 import com.tn.assignment.service.CourseRegistrationService;
 import com.tn.assignment.service.exception.AlreadyRegisteredException;
 import com.tn.assignment.service.exception.CourseNotFoundException;
@@ -30,52 +33,57 @@ public class RegisterCourseHandler {
 		this.courseRegistationService = courseRegistationService;
 		this.messageSource = messageSource;
 	}
-
 	
-	public ResponseEntity<Object> process(Locale locale, CourseRegistration courseReg) {
+	public CourseRegistrationResult process(Locale locale, CourseRegistration courseReg) {
 		try {
 
 			CourseRegistration resultCourseReg = courseRegistationService.register(courseReg.getStudentsId(), courseReg.getCoursesId());
 
 			String resultMessage = messageSource.getMessage("regs.add.rs", new Object[] {resultCourseReg.getId()}, locale);
-			Map<String, Object> resultMap = formatResult(resultMessage, resultCourseReg);
-			return ResponseEntity.status(HttpStatus.CREATED).body(resultMap);
+			return new CourseRegistrationResult(resultMessage, resultCourseReg);
 
 		} catch (StudentNotFoundException unfex) {
 			String errorMessage = messageSource.getMessage("regs.add.rs.err.usernotfound", new Object[] {unfex.getMessage()}, locale);
-			Map<String, Object> resultMap = formatResult(errorMessage, null);
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resultMap);
+			return new CourseRegistrationResult(errorMessage, null);
 
 		} catch (CourseNotFoundException cnfex) {
 			String errorMessage = messageSource.getMessage("regs.add.rs.err.coursenotfound", new Object[] {cnfex.getMessage()}, locale);
-			Map<String, Object> resultMap = formatResult(errorMessage, null);
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resultMap);	
+			return new CourseRegistrationResult(errorMessage, null);
 
 		} catch (AlreadyRegisteredException arex) {
 			String errorMessage = messageSource.getMessage("regs.add.rs.err.alreadyregistered", new Object[] {arex.getMessage()}, locale);						
-			Map<String, Object> resultMap = formatResult(errorMessage, null);
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resultMap);		
+			return new CourseRegistrationResult(errorMessage, null);
 
 		} catch (UnavailableCreditException ucex) {
 			String errorMessage = messageSource.getMessage("regs.add.rs.err.unavailablecredit", new Object[] {ucex.getStudentsId(), ucex.getMessage()}, locale);						
-			Map<String, Object> resultMap = formatResult(errorMessage, null);
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resultMap);			
+			return new CourseRegistrationResult(errorMessage, null);	
 
 		} catch (UnavailableSeatException ucex) {
 			String errorMessage = messageSource.getMessage("regs.add.rs.err.unavailableseat", new Object[] {ucex.getMessage()}, locale);						
-			Map<String, Object> resultMap = formatResult(errorMessage, null);
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resultMap);		
+			return new CourseRegistrationResult(errorMessage, null);
 
 		}		
 	}
 
-	public Map<String, Object> formatResult(String description, Object resultCourseReg) {
 
-			Map<String, Object> resultMap = new HashMap<String, Object>();
-			resultMap.put("description", description);
-			resultMap.put("registration", resultCourseReg);
 
-			return resultMap;
+	public ResponseEntity<Object> register(Locale locale, CourseRegistration courseReg) {
+
+		CourseRegistrationResult result = process(locale, courseReg);
+		return ResponseEntity.status((result.getRegistration() != null)? HttpStatus.CREATED: HttpStatus.BAD_REQUEST).body(result);
+
 	}
 
+
+	public ResponseEntity<Object> registerBatch(Locale locale, List<CourseRegistration> courseRegList) {
+		
+		List<CourseRegistrationResult> resultList = new ArrayList<CourseRegistrationResult>();
+
+		for (CourseRegistration courseReg: courseRegList) {
+			CourseRegistrationResult result = process(locale, courseReg);
+			resultList.add(result);
+		}
+		
+		return ResponseEntity.status(HttpStatus.OK).body(resultList);
+	}
 }

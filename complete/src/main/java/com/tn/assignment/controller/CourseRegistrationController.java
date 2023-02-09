@@ -1,5 +1,6 @@
 package com.tn.assignment.controller;
 
+import java.util.List;
 import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,7 @@ public class CourseRegistrationController {
 
 
 
+
 	/*
 	 * @param courseReg - the CourseRegistration representing student id and course id 
 	 * @return a JSONObject with description "SAVED ID: <registration id>!" and the saved CourseRegistration model.
@@ -54,8 +56,20 @@ public class CourseRegistrationController {
 	public @ResponseBody ResponseEntity<Object> register(@RequestHeader(name="Accept-Language", required=false) Locale locale,
 														 @RequestBody CourseRegistration courseReg) {
 				
-		return new RegisterCourseHandler(courseRegistationService, messageSource).process(locale, courseReg);
+		return new RegisterCourseHandler(courseRegistationService, messageSource).register(locale, courseReg);
 
 	}
 
+	
+	/*
+	 * @param courseRegList - the list of CourseRegistration representing student id and course id 
+	 * @return a JSONArray containing result JSONObjects
+	 */
+	@RequestMapping(path="/registrations/batch", method=RequestMethod.POST) 
+	public @ResponseBody ResponseEntity<Object> register(@RequestHeader(name="Accept-Language", required=false) Locale locale,
+														 @RequestBody List<CourseRegistration> courseRegList) {
+				
+		return new RegisterCourseHandler(courseRegistationService, messageSource).registerBatch(locale, courseRegList);
+
+	}
 }
