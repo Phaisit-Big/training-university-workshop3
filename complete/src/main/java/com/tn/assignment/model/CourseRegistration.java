@@ -6,8 +6,8 @@ public class CourseRegistration {
 	private Integer studentsId;
 	private Integer coursesId;
 	private String studentName;			// students.name
-	private String subjectCode;		// courses.subjectCode
-	private String subjectName;		// courses.subjectName
+	private String subjectCode;			// courses.subjectCode
+	private String subjectName;			// courses.subjectName
 
 	
 	public Integer getId() {

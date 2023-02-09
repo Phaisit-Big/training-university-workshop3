@@ -19,8 +19,7 @@ public class StudentService {
 	private StudentRepository studentRepository;
 
     
-    public List<Student> findAll() {   
-        System.out.println(getClass() + "--------" + studentRepository + "--------");
+    public List<Student> findAll() {  
 
         Iterable<StudentEntity> iter = studentRepository.findAll();
         
@@ -44,13 +43,13 @@ public class StudentService {
 		studentEntity.setState(1);                                         // 0: Expired, 1: Active (Default)
 		studentEntity.setCreated(new Timestamp(System.currentTimeMillis()));
 
-		StudentEntity resultUserEntity = studentRepository.save(studentEntity);
+		StudentEntity resultStudentEntity = studentRepository.save(studentEntity);
         
         Student resultStudent = new Student();
-        resultStudent.setId(resultUserEntity.getId());
-        resultStudent.setName(resultUserEntity.getName());
-        resultStudent.setEmail(resultUserEntity.getEmail());
-        resultStudent.setIsActive(1 == resultUserEntity.getState());
+        resultStudent.setId(resultStudentEntity.getId());
+        resultStudent.setName(resultStudentEntity.getName());
+        resultStudent.setEmail(resultStudentEntity.getEmail());
+        resultStudent.setIsActive(1 == resultStudentEntity.getState());
 
         return resultStudent;
     }
