@@ -20,6 +20,10 @@ import com.tn.assignment.controller.handler.AddStudentHandler;
 import com.tn.assignment.model.Student;
 import com.tn.assignment.service.StudentService;
 
+/*
+ * TODO: Code review 3.4 - Cohesion and decoupling
+ * - Move response formatting codes in a controller to another handler class`
+ */
 @Controller
 public class StudentController {
 

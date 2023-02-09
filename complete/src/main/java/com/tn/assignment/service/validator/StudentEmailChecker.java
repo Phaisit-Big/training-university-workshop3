@@ -7,10 +7,9 @@ import com.tn.assignment.service.repo.StudentRepository;
 import com.tn.assignment.service.repo.entity.StudentEntity;
 
 /* 
- * TODO: Code review 3.2: Performance
- *  - matcher should be checked before findFirstByEmail to reduce querying the database
- *  - pattern could be static to help reduce unnecessary regex pattern parsing
- *  - email must be indexed on the Student table
+ * TODO: Code review 3.2 - Logic performance
+ *  - internal memory logic should be checked before querying databases or calling external parties
+ *  - a reuseable object could be static to help reduce unnecessary object instantiation
  */
 public class StudentEmailChecker {
     

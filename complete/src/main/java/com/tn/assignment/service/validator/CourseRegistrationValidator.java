@@ -1,19 +1,16 @@
 package com.tn.assignment.service.validator;
 
 import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import com.tn.assignment.service.exception.AlreadyRegisteredException;
 import com.tn.assignment.service.exception.UnavailableCreditException;
 import com.tn.assignment.service.exception.UnavailableSeatException;
 import com.tn.assignment.service.repo.RegistrationRepository;
-import com.tn.assignment.service.repo.StudentRepository;
 import com.tn.assignment.service.repo.entity.CourseEntity;
 import com.tn.assignment.service.repo.entity.StudentEntity;
 
 /* 
- * TODO: Code review 3.1: Code complexity
+ * TODO: Code review 3.1 - Code complexity
  *  - use throw or return to help reduce too many nested if-else blocks 
  */
 public class CourseRegistrationValidator {

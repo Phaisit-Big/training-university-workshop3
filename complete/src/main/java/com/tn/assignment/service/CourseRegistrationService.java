@@ -11,10 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tn.assignment.model.CourseRegistration;
-import com.tn.assignment.service.exception.AlreadyRegisteredException;
 import com.tn.assignment.service.exception.CourseNotFoundException;
-import com.tn.assignment.service.exception.UnavailableCreditException;
-import com.tn.assignment.service.exception.UnavailableSeatException;
 import com.tn.assignment.service.exception.StudentNotFoundException;
 import com.tn.assignment.service.repo.CourseRepository;
 import com.tn.assignment.service.repo.RegistrationRepository;

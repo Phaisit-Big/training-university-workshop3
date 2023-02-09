@@ -1,25 +1,15 @@
 package com.tn.assignment.controller.handler;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.tn.assignment.model.CourseRegistration;
-import com.tn.assignment.model.CourseRegistrationResult;
 import com.tn.assignment.model.Student;
 import com.tn.assignment.model.StudentResult;
-import com.tn.assignment.service.CourseRegistrationService;
 import com.tn.assignment.service.StudentService;
-import com.tn.assignment.service.exception.AlreadyRegisteredException;
-import com.tn.assignment.service.exception.CourseNotFoundException;
 import com.tn.assignment.service.exception.InvalidStudentEmailException;
-import com.tn.assignment.service.exception.StudentNotFoundException;
-import com.tn.assignment.service.exception.UnavailableCreditException;
-import com.tn.assignment.service.exception.UnavailableSeatException;
 
 
 public class AddStudentHandler {
