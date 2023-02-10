@@ -16,11 +16,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tn.assignment.controller.handler.AddCourseHandler;
 import com.tn.assignment.model.Course;
-import com.tn.assignment.model.Student;
 import com.tn.assignment.service.CourseService;
-import com.tn.assignment.service.StudentService;
 
+/*
+ * TODO: Code review 3.4 - Cohesion and decoupling
+ * - Move non-routing codes in a controller to another specific-purpose handler class
+ *   e.g. separate codes that handle response formattting to AddCourseHandler
+ */
 @Controller
 public class CourseController {
 
@@ -58,17 +62,7 @@ public class CourseController {
 	public @ResponseBody ResponseEntity<Object> addCourse(@RequestHeader(name="Accept-Language", required=false) Locale locale,
 																@RequestBody Course course) {
 
-		Course resultCourse = courseService.save(course);
-				
-		//locale = new Locale("th"); 
-	    //locale = LocaleContextHolder.getLocale(); 
-		String resultMessage = messageSource.getMessage("courses.add.rs", new Object[] {resultCourse.getId()}, locale);
-		
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("description", resultMessage);
-		resultMap.put("course", resultCourse);
-		
-		return ResponseEntity.status(HttpStatus.CREATED).body(resultMap);
+		return new AddCourseHandler(courseService, messageSource).addCourse(locale, course);
 	}
 
 }
