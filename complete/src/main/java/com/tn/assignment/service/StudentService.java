@@ -17,10 +17,8 @@ import com.tn.assignment.service.validator.StudentEmailChecker;
 
 /*
  * TODO: Code review 3.3 - Minimize resource usage
- * - fetch only mandatory fields and neccessary records to avoid transferring large data in transit
- * - query conditions with an index and eliminate full scan search on database 
- * - do not store a large number of querying records into a client variable
- *   e.g. the method countStudents uses COUNT query instead of fething all records into a list
+ * - modify only this class to optimize resource usages and processing performance 
+ * - hint: GET /students/count?isActive=true
  */
 @Service    
 public class StudentService {
@@ -71,8 +69,16 @@ public class StudentService {
 
     
     public int countStudents(boolean isActive) {   
-        Integer count = studentRepository.countStudents(isActive? 1: 0);
-        return Optional.ofNullable(count).orElse(0);    
+        int count = 0;
+        int checkingState = isActive? 1: 0;
+        Iterable<StudentEntity> iter = studentRepository.findAll();  
+        for (StudentEntity studentEntity: iter) {
+            if (checkingState == studentEntity.getState()) {
+                count++;
+            }
+        };    
+
+        return count;    
     }
 
 
