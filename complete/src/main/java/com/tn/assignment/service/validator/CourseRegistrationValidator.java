@@ -10,7 +10,7 @@ import com.tn.assignment.service.repo.entity.CourseEntity;
 import com.tn.assignment.service.repo.entity.StudentEntity;
 
 /* 
- * TODO: Code review 3.1 - Code complexity
+ * TODO: Code review 3.1 - Code complexity and code readability
  *  - use throw or return to help reduce too many nested if-else blocks 
  *    e.g. the method validate reduces logic entanglement by using throw statements instead of nested if-else of three checks
  */
