@@ -33,13 +33,22 @@ public class StudentEmailChecker {
             return false;
         }
 
-        Pattern pattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
-        Matcher matcher = pattern.matcher(email);  
-        if (!matcher.matches()) {
-            // incorrect email pattern
-            return false;
-        }  
+        return isValidPattern(email);
+    }
 
-        return true;
+    private boolean isValidPattern(String email) {
+        int atIndex = email.indexOf("@");
+        if (atIndex == -1) {
+            return false;
+        }
+
+        String username = email.substring(0, atIndex);
+        String domain = email.substring(atIndex + 1);
+
+        if (username.length() == 0 || domain.length() == 0) {
+            return false;
+        }
+
+        return !(username.contains(" ") || domain.contains(" "));
     }
 }
