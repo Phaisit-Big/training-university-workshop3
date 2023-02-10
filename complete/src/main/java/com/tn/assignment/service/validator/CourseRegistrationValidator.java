@@ -18,8 +18,8 @@ public class CourseRegistrationValidator {
 
 
     private RegistrationRepository registrationRepository;
-    private Integer maximumCreditsPerUser;
-	private Integer maximumSeatsPerCourse;
+    private Integer mxCredits;
+	private Integer mxSeats;
 
     public CourseRegistrationValidator(RegistrationRepository registrationRepository) {
         this.registrationRepository = registrationRepository;
@@ -56,22 +56,22 @@ public class CourseRegistrationValidator {
 
 
     public Integer getMaximumCreditsPerUser() {
-        return maximumCreditsPerUser;
+        return mxCredits;
     }
 
 
-    public void setMaximumCreditsPerUser(Integer maximumCreditsPerUser) {
-        this.maximumCreditsPerUser = maximumCreditsPerUser;
+    public void setMaximumCreditsPerUser(Integer mxCredits) {
+        this.mxCredits = mxCredits;
     }
 
 
     public Integer getMaximumSeatsPerCourse() {
-        return maximumSeatsPerCourse;
+        return mxSeats;
     }
 
 
-    public void setMaximumSeatsPerCourse(Integer maximumSeatsPerCourse) {
-        this.maximumSeatsPerCourse = maximumSeatsPerCourse;
+    public void setMaximumSeatsPerCourse(Integer mxSeats) {
+        this.mxSeats = mxSeats;
     }
 
     
