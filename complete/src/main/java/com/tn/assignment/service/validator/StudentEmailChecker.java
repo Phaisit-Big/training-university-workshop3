@@ -26,6 +26,11 @@ public class StudentEmailChecker {
 
     public boolean isValid(String email) {
 
+        if (null == email) {
+            // email not specified
+            return false;
+        }
+
         Matcher matcher = EMAIL_PATTERN.matcher(email);  
         if (!matcher.matches()) {
             // incorrect email pattern
