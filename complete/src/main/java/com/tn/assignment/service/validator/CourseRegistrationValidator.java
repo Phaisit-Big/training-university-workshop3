@@ -12,7 +12,7 @@ import com.tn.assignment.service.repo.entity.StudentEntity;
 /* 
  * TODO: Code review 3.1 - Code complexity and code readability
  *  - modify only this class to reduce complicated logics and enhance code readability
- *  - example: POST /registrations {"studentsId": 1234, "coursesId": 6}
+ *  - hint: POST /registrations  {"studentsId": 1234, "coursesId": 6}
  */
 public class CourseRegistrationValidator {
 
