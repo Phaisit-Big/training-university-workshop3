@@ -5,23 +5,20 @@ import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tn.assignment.controller.handler.AddStudentHandler;
 import com.tn.assignment.model.Student;
 import com.tn.assignment.service.StudentService;
 
-/*
- * TODO: Code review 3.4 - Cohesion and decoupling
- * - Move response formatting codes in a controller to another handler class
- *   e.g. separate codes that handle add student response formattting to AddStudentHandler
- */
 @Controller
 public class StudentController {
 
@@ -35,12 +32,23 @@ public class StudentController {
 
 
 	/*
+	 * @return the number of students
+	 */
+	@RequestMapping(path="/students/count", method=RequestMethod.GET) 
+	public @ResponseBody ResponseEntity<Object> countStudents(@RequestParam(name="isActive", defaultValue="true") boolean isActive) {
+
+		int count = studentService.countStudents(isActive);
+
+		return ResponseEntity.status(HttpStatus.OK).body(count);
+	}
+
+	/*
 	 * @return list all students in a JSONArray with JSONObjects transfermed from Student models
 	 */
 	@RequestMapping(path="/students", method=RequestMethod.GET) 
-	public @ResponseBody Iterable<Student> getAllStudents() {
+	public @ResponseBody ResponseEntity<Object> getAllStudents() {
 
-		return studentService.findAll();
+		return ResponseEntity.status(HttpStatus.OK).body(studentService.findAll());
 	}
 
 	/*
