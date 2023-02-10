@@ -9,6 +9,7 @@ import com.tn.assignment.service.repo.entity.StudentEntity;
 /* 
  * TODO: Code review 3.2 - Code performance
  *  - modify only this class to enhance processing performance
+ *  - example: POST /students  {"name": "สมชาย แสนดี", "email": "somchai@hotmail.com"}
  */
 public class StudentEmailChecker {
     
