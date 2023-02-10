@@ -10,9 +10,9 @@ import com.tn.assignment.service.repo.entity.CourseEntity;
 import com.tn.assignment.service.repo.entity.StudentEntity;
 
 /* 
- * TODO: Code review 3.1 - Code complexity
- *  - use throw or return to help reduce too many nested if-else blocks 
- *    e.g. the method validate reduces logic entanglement by using throw statements instead of nested if-else of three checks
+ * TODO: Code review 3.1 - Code complexity and code readability
+ *  - modify only this class to reduce complicated logics and enhance code readability
+ *  - example: POST /registrations {"studentsId": 1234, "coursesId": 6}
  */
 public class CourseRegistrationValidator {
 
@@ -28,24 +28,29 @@ public class CourseRegistrationValidator {
 
     public void validate(StudentEntity studentEntity, CourseEntity courseEntity) {
 
-
         // check duplications of student-course registration
-        if (null != registrationRepository.findByStudentsIdAndCoursesId(studentEntity.getId(), courseEntity.getId())) {
+        if (null == registrationRepository.findByStudentsIdAndCoursesId(studentEntity.getId(), courseEntity.getId())) {
+
+            // check credit availability of a student
+            Integer userCredits = registrationRepository.countStudentCredits(studentEntity.getId());
+            int availableCredits = getMaximumCreditsPerUser() - Optional.ofNullable(userCredits).orElse(0);
+            if (availableCredits >= courseEntity.getCredit()) {
+                
+                // check seat availability of course
+                Integer courseSeats = registrationRepository.countCourseSeats(courseEntity.getId());
+                int availableSeats = getMaximumSeatsPerCourse() - Optional.ofNullable(courseSeats).orElse(0);
+                if (availableSeats > 0) {
+                    return;
+                } else {
+                    throw new UnavailableSeatException(courseEntity.getId());
+                }     
+
+            } else {
+                throw new UnavailableCreditException(studentEntity.getId(), availableCredits, courseEntity.getCredit());
+            }
+            
+        } else {
             throw new AlreadyRegisteredException(studentEntity.getId(), courseEntity.getId());
-        }
-
-        // check credit availability of a student
-        Integer userCredits = registrationRepository.countStudentCredits(studentEntity.getId());
-        int availableCredits = getMaximumCreditsPerUser() - Optional.ofNullable(userCredits).orElse(0);
-        if (availableCredits < courseEntity.getCredit()) {
-            throw new UnavailableCreditException(studentEntity.getId(), availableCredits, courseEntity.getCredit());
-        }
-
-        // check seat availability of course
-        Integer courseSeats = registrationRepository.countCourseSeats(courseEntity.getId());
-        int availableSeats = getMaximumSeatsPerCourse() - Optional.ofNullable(courseSeats).orElse(0);
-        if (availableSeats <= 0) {
-            throw new UnavailableSeatException(courseEntity.getId());
         }
     }
 
