@@ -22,6 +22,11 @@ public class StudentEmailChecker {
 
     public boolean isValid(String email) {
 
+        if (null == email) {
+            // email not specified
+            return false;
+        }
+
         StudentEntity studentEntity = studentRepository.findFirstByEmail(email);
         if (null != studentEntity) {
             // email is already used by other
